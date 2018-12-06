@@ -28,4 +28,3 @@ module.exports = {
     } // a function which can be used to insert a message into the database
   }
 };
-
