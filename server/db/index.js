@@ -4,17 +4,14 @@ var mysql = require('mysql');
 // You will need to connect with the user "root", no password,
 // and to the database "chat".
 
-var connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'student',
-  password : '',
-  database : 'chat'
+var connect = mysql.createConnection({
+  post: 'localhost',
+  user: 'student',
+  password: 'student',
+  database: 'chat'
 });
+connect.connect();
 
-connection.connect(function(err) {
-    if (err) throw err;
-});
-
-module.exports = connection;
+module.exports = connect;
 
 // use the database connection to store data as messages come in

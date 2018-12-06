@@ -4,7 +4,7 @@ module.exports = {
   messages: {
     get: function (req, res) {
       // call get function in models(res)
-      models.messages.get(res);
+      models.messages.get(req, res);
     }, // a function which handles a get request for all messages
     post: function (req, res) {
       // call post function in models(req, res)
