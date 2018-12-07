@@ -3,15 +3,24 @@ CREATE DATABASE chat;
 USE chat;
 
 CREATE TABLE messages (
-  -- id INTEGER PRIMARY KEY,
-  username CHAR(20),
-  message CHAR(20),
-  roomname CHAR(20)
-  -- FOREIGN KEY (userId)
-  --   REFERENCES users(id),
-  -- FOREIGN KEY (roomId)
-  --   REFERENCES rooms(id)
+  id int NOT NULL AUTO_INCREMENT,
+  userId int NOT NULL,
+  message varchar(200),
+  roomname varchar(20),
+  PRIMARY KEY(ID)
 );
+
+CREATE TABLE users (
+  id int NOT NULL AUTO_INCREMENT,
+  name varchar(20) NOT NULL,
+  PRIMARY KEY(ID)
+);
+
+-- CREATE TABLE rooms (
+--   id int NOT NULL AUTO_INCREMENT,
+--   name varchar(20),
+--   PRIMARY KEY(id)
+-- );
 
 /* Create other tables and define schemas for them here! */
 
@@ -20,24 +29,3 @@ CREATE TABLE messages (
 /*  Execute this file from the command line by typing:
  *    mysql -u root < server/schema.sql
  *  to create the database and the tables.*/
-
--- CREATE TABLE messages (
---   id INTEGER PRIMARY KEY,
---   userId INTEGER,
---   message TEXT,
---   roomId INTEGER,
---   FOREIGN KEY (userId)
---     REFERENCES users(id),
---   FOREIGN KEY (roomId)
---     REFERENCES rooms(id)
--- );
-
--- CREATE TABLE users (
---   id INTEGER PRIMARY KEY,
---   name CHAR(20)
--- );
-
--- CREATE TABLE rooms (
---   id INTEGER PRIMARY KEY,
---   name CHAR(20)
--- );

@@ -3,15 +3,15 @@ var db = require('../db');
 // deals with queries
 module.exports = {
   messages: {
-    get: function (req, res) {
+    get: function (callback) {
       //console.log('we did a get request');
-      db.query("SELECT * FROM messages", function(err, data) {
-        if (err) {
-          throw err;
-        }
+      var queryStr = "select messages.id, messages.message, messages.roomname, users.name \
+                from messages left outer join users on (messages.userId = users.id) \
+                order by messages.id desc";
+      db.query(queryStr, function(err, results) {
         // console.log('what we got back from the db', data);
         // console.log('this is the type of data: ',typeof data);
-        res.end(JSON.stringify(data));
+        callback(err, results);
       });
       // res.end("we got the get request");
       // console.log('req.body', req.body);
@@ -29,17 +29,11 @@ module.exports = {
       
     
 
-    post: function (req, res) {
-      var jsondata = req.body;
-      console.log(jsondata);
-      var sql = "INSERT INTO messages (username, message, roomname) VALUES ?";
-      var args = [];
-      db.query(sql, args, function(err, res) {
-        if (err) {
-          throw err;
-        } else {
-          res.end('SUCCESS');
-        }
+    post: function (params, callback) {
+      var queryStr = 'INSERT INTO messages(message, userId, roomname) \
+                value (?, (select id from users where name = ? limit 1), ?)';
+      db.query(queryStr, params, function(err, results) {
+        callback(err, results);
       });
       // i: path?, callback that takes req, res
       // receives request from controller
@@ -53,7 +47,19 @@ module.exports = {
 
   users: {
     // Ditto as above.
-    get: function () {},
-    post: function () {}
+    get: function (callback) {
+      var queryStr = 'select * from users';
+      db.query(queryStr, function(err, results) {
+        // console.log('what we got back from the db', data);
+        // console.log('this is the type of data: ',typeof data);
+        callback(err, results);
+      });
+    },
+    post: function (params, callback) {
+      var queryStr = 'insert into users(name) values (?)';
+      db.query(queryStr, params, function(err, results) {
+        callback(err, results);
+      });
+    }
   }
 };
